@@ -1,1 +1,56 @@
+class player:
+    
+    #CONSTRUCTOR
+    def __inint__ (self, firstName, lastName, age, grade, school, gender, team, scores):
+        self.firstName = firstName
+        self.lastName = lastName
+        self.age = age
+        self.grade = grade
+        self.school = school
+        self.gender = gender
+        self.team = team
+        self.scores = scores
+        
+    #ACCESSOR METHODS
+    
+    def getFirstName(self):
+        return self.firstName
+    
+    def getLastName(self):
+        return self.lastName
+    
+    def getName(self):
+        return "{0} {1}".format(self.firstName, self.lastName)
+    
+    def getAge(self):
+        return self.age
+    
+    def getGrade(self):
+        return self.grade
+    
+    def getSchool(self):
+        return self.school
+    
+    def getGender(self):
+        return self.gender
+    
+    def getTeam(self):
+        return self.team
+    
+    #how do i want this to be ?? 
+    def getScorse(self):
+        if self.scores.isEmpty():
+            x = eval(print("{} has no scores stored. Would you like to add scores to players data? \n1. Yes\n2. No".format(self.getName())))
+        else:
+            print("Here it will print the scores of the player somehow!")
+            
+    #options to change data
+    def changeAge(self, number):
+        self.age = number
+    
+    def changeGrade(self, number):
+        self.grade = number
+        
+    def changeSchool(self, school):
+        self.school = school
 
