@@ -9,4 +9,4 @@ def readFile():
         data=line.split(",")
         if data[0]!="":
             players.append(Player(data[3],data[4],data[5],data[6],data[2],data[17]))
-            
+                                #first, last, gender, grade, school, scores
