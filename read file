@@ -8,5 +8,5 @@ def readFile():
     for line in infile:
         data=line.split(",")
         if data[0]!="":
-            players.append(Player(data[3],data[4],data[5],data[6],data[17]))
+            players.append(Player(data[3],data[4],data[5],data[6],data[2],data[17]))
             
