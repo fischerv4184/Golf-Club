@@ -1,5 +1,5 @@
 class Team:
-    def __init__(name, golfers, gender,grade):
+    def __init__(self,name, golfers, gender,grade):
         self.golfers=golfers #should be a list-maybe dont make it a parameter, just assign it to empty?
         self.gender=gender
         self.grade=grade
@@ -7,17 +7,17 @@ class Team:
         self.full=False
         self.name=name
         
-    def findRanking():
+    def findRanking(self):
         #add together all rankings of players on the team using getRanking
         #divide by number of golfers
         
-    def getSize():
+    def getSize(self):
         #return number of golfers
         
-    def addGolfer():
+    def addGolfer(self):
         #check how many golfers on team(if full, do not add-maybe return false?? or create new team with same age and gender?)
         #add to golfers list
         #if list now=8, change full to True
         
-    def getName():
+    def getName(self):
         return self.name;
