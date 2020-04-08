@@ -1,7 +1,7 @@
 class player:
     
     #CONSTRUCTOR
-    def __inint__ (self, firstName, lastName, age, grade, school, gender, team, scores):
+    def __init__ (self, firstName, lastName, age, grade, school, gender, team, scores):
         self.firstName = firstName
         self.lastName = lastName
         self.age = age
