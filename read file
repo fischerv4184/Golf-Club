@@ -1,15 +1,3 @@
-class Player:
-    def __init__(self,first,last,gender,grade,scores):
-        self.first=first
-        self.last=last
-        self.gender=gender
-        self.grade=grade
-        self.scores=scores
-        
-    def __repr__(self):
-        return f"[{self.first}, {self.last}, {self.gender}, {self.grade}, {self.scores}]"
-
-
 players=[]
 
 def readFile():
@@ -21,12 +9,4 @@ def readFile():
         data=line.split(",")
         if data[0]!="":
             players.append(Player(data[3],data[4],data[5],data[6],data[17]))
-       
-def main():
-    readFile()
-    print(players[1],players[5],players[12])
-
-
-
-
-main()
+            
