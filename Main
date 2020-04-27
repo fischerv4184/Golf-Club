@@ -1,1 +1,60 @@
+from playerObject import player
+
+players=[]
+
+def readFile():
+    infile=open("score_sheet.csv","r")
+    infile.readline()
+    infile.readline()
+    counter=0
+    for line in infile:
+        data=line.split(",")
+        if data[0]!="":
+            players.append(player(data[3],data[4],data[5],data[6],data[2],data[17]))
+
+'''def viewTeams():
+    #print teams and their players 
+
+def findPlayer():
+    #search through list of player objects to find desired player
+    
+    
+def ranking():
+    #give option of player ranking or team ranking
+    #go through list and rank
+
+def currentSchedule():
+    #NOT SURE HOW WE WANT TO IMPLEMENT THIS
+
+def modifySchedule():
+    #change the current schedule
+    #NOT SURE HOW TO IMPLEMENT THIS
+    
+def tournament():
+    #create tournament '''
+
+            
+def main():
+    
+    readFile()
+    #print menu, have it welcome and display options. take in pick, and direct accordingly
+    x = eval(input("What would you like to do: \n1. View Teams \n2. Find Player \n3. Ranking \n4. Current Schedule \n5. Modify Schedule \n6. New Tournament\n"))
+    #have shuffle teams, add player, and move players as an option within the view teams option
+    
+    if(x == 1):
+        viewTeams()
+    if(x == 2):
+        findPlayer()
+    if (x==3):
+        ranking()
+    if (x==4):
+        schedule()
+    if (x== 5):
+        modifySchedule()
+    if (x== 6):
+        tournament()
+
+
+main()
+            
 
