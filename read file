@@ -4,9 +4,12 @@ def readFile():
     infile=open("score_sheet.csv","r")
     infile.readline()
     infile.readline()
-    counter=0
     for line in infile:
         data=line.split(",")
         if data[0]!="":
-            players.append(Player(data[3],data[4],data[5],data[6],data[2],data[17]))
+            scores=[]
+            for score in range(6):
+                if data[score]!="":
+                    scores.append(data[10+score])
+            players.append(player(data[3],data[4],data[5],data[6],data[2],scores))
                                 #first, last, gender, grade, school, scores
