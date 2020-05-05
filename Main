@@ -1,5 +1,5 @@
-from playerObject import player
-
+from player import player
+from Schedule import *
 players=[]
 
 def readFile():
@@ -13,32 +13,50 @@ def readFile():
             players.append(player(data[3],data[4],data[5],data[6],data[2],data[17]))
 
 '''def viewTeams():
-    #print teams and their players 
+    #print teams and their players '''
 
 def findPlayer():
+    b = False
     #search through list of player objects to find desired player
+    name = input("What is the name of the player you wish to find? First and Last name\n")
+    for x in players:
+        if (x.getName == name):
+            print("Player found!")
+            b = True
+            x.stats()
+            #maybe ofter to show player stats? player information? How do we want to show this
+            break
+        
+    if (b == False):
+        print("Player not found in database.") 
     
+def schedule():
+    readFile()
+    while(True):
+        x=int(input("\nWhat would you like to do?\n1. Add new month\n2. View month\n3. View a list of all generated months. "))
+        if x==1:
+            addMonth()
+        elif x==2:
+            findMonth()
+        else:
+            print(months)
     
-def ranking():
+
+'''def ranking():
     #give option of player ranking or team ranking
     #go through list and rank
 
-def currentSchedule():
-    #NOT SURE HOW WE WANT TO IMPLEMENT THIS
 
-def modifySchedule():
-    #change the current schedule
-    #NOT SURE HOW TO IMPLEMENT THIS
     
 def tournament():
-    #create tournament '''
+    #create tournament'''
 
             
 def main():
     
     readFile()
     #print menu, have it welcome and display options. take in pick, and direct accordingly
-    x = eval(input("What would you like to do: \n1. View Teams \n2. Find Player \n3. Ranking \n4. Current Schedule \n5. Modify Schedule \n6. New Tournament\n"))
+    x = eval(input("What would you like to do: \n1. View Teams \n2. Find Player \n3. Ranking \n4. Calander \n5. New Tournament\n"))
     #have shuffle teams, add player, and move players as an option within the view teams option
     
     if(x == 1):
@@ -50,11 +68,7 @@ def main():
     if (x==4):
         schedule()
     if (x== 5):
-        modifySchedule()
-    if (x== 6):
         tournament()
 
 
 main()
-            
-
