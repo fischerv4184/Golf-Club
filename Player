@@ -1,13 +1,15 @@
 class player:
     
     #CONSTRUCTOR
-    def __init__ (self, firstName, lastName, gender, grade, school, scores):
+    def __init__ (self, firstName, lastName, gender, grade, school, scores, team):
         self.firstName = firstName
         self.lastName = lastName
         self.grade = grade
         self.gender = gender
         self.scores = scores
         self.school = school
+        self.team = team
+        self.gamesPlayed = len(scores)
         
     #ACCESSOR METHODS
     
@@ -33,14 +35,35 @@ class player:
     
     
     #how do i want this to be ?? 
-    def getScorse(self):
-        if self.scores.isEmpty():
-            x = eval(print("{} has no scores stored. Would you like to add scores to players data? \n1. Yes\n2. No".format(self.getName())))
-        else:
-            print("Here it will print the scores of the player somehow!")
+    def getScores(self):
+        b = 0
+        print("Players Scores: ")
+        for x in self.scores:
+            print("   {}".format(x))
+        
+        for x in self.scores:
+            a = eval(x)
+            b = b + a
+        
+        b = b/len(self.scores)
+        b = format(b , '.2f')
+        
+        print("Players Average Score: {}".format(b))
+        
+        
+        
+        #other stuff
             
+    def stats(self):
+        print("Full Name: {}".format(self.getName()))
+        print("Gender: {}".format(self.getGender()))
+        print("School: {}".format(self.getSchool()))
+        print("Grade: {}".format(self.getGrade()))
+        print(self.getScores())
+    
+    
+    
     #options to change data
-
     
     def changeGrade(self, number):
         self.grade = number
@@ -48,6 +71,20 @@ class player:
     def changeSchool(self, s):
         self.school = s
         
+ 
+
+
+    
+
+
+
+
+        
+        
+    
+    
+    
+
  
 
 
