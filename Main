@@ -1,34 +1,27 @@
 from player import player
 from Schedule import *
-players=[]
+from read import *
 
-def readFile():
-    infile=open("score_sheet.csv","r")
-    infile.readline()
-    infile.readline()
-    counter=0
-    for line in infile:
-        data=line.split(",")
-        if data[0]!="":
-            players.append(player(data[3],data[4],data[5],data[6],data[2],data[17]))
 
 '''def viewTeams():
     #print teams and their players '''
 
 def findPlayer():
     b = False
-    #search through list of player objects to find desired player
-    name = input("What is the name of the player you wish to find? First and Last name\n")
-    for x in players:
-        if (x.getName == name):
-            print("Player found!")
+    name = input("What is the name of the player you would like to find (first and last name)?: ")
+    
+    for a in players:
+        if (a.getName() == name):
+            print("{} found in database!".format(name))
+            #display stats
+            print("PLAYER STATS")
+            a.stats()
             b = True
-            x.stats()
-            #maybe ofter to show player stats? player information? How do we want to show this
             break
-        
+    
     if (b == False):
-        print("Player not found in database.") 
+        print("Player not found in database.")
+                
     
 def schedule():
     readFile()
@@ -40,23 +33,29 @@ def schedule():
             findMonth()
         else:
             print(months)
+
+
     
 
-'''def ranking():
+'''
+def viewTeam():
+
+def ranking():
     #give option of player ranking or team ranking
     #go through list and rank
-
+    
+def newScores():
 
     
-def tournament():
-    #create tournament'''
+'''
 
             
 def main():
     
     readFile()
+        
     #print menu, have it welcome and display options. take in pick, and direct accordingly
-    x = eval(input("What would you like to do: \n1. View Teams \n2. Find Player \n3. Ranking \n4. Calander \n5. New Tournament\n"))
+    x = eval(input("What would you like to do: \n1. View Teams \n2. Find Player \n3. Ranking \n4. Calander\n5. Update Scores "))
     #have shuffle teams, add player, and move players as an option within the view teams option
     
     if(x == 1):
@@ -67,8 +66,11 @@ def main():
         ranking()
     if (x==4):
         schedule()
-    if (x== 5):
-        tournament()
+    if (x==5):
+        newScores()
+    
+    
 
 
 main()
+            
