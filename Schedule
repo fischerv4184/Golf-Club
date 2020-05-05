@@ -1,0 +1,353 @@
+months=[] #array of each generated month
+# Month class stores the matches and tournaments associated with each month that the user generates
+class Month:
+    def __init__(self, name, year, start, days): 
+        self.name=name
+        self.year=year
+        self.start=start #which day the month starts on
+        self.days=days # number of days in the month
+        self.matches=[] 
+        self.tournaments=[]
+    def __repr__(self):
+        return f"{self.name} {self.year}"
+        
+    def getName(self):
+        return self.name
+    def getYear(self):
+        return self.year
+    def getStart(self):
+        return self.start
+    def getDays(self):
+        return self.days
+    def getMatches(self):
+        return self.matches
+    def getTournaments(self):
+        return self.tournaments
+    def appendMatch(self,match):
+        self.matches.append(match)
+    def appendTournament(self,tournament):
+        self.tournaments.append(tournament)
+        
+        
+def addMonth(): #generates a new month, which can be viewed and have matches and tournaments added to it
+    n=input("Enter the name of the month to add. ")
+    y=input("Enter the year. ")
+    for index in months:
+        if n==index.getName() and y==index.getYear():
+            print("This month has already been generated.")
+            return
+    s=int(input("What day of the week does the month start on? 1=Sun, 2=Mon, etc. "))
+    d=int(input("How many days are in the month? "))
+    m=Month(n.strip(),y.strip(),s-1,d)
+    b=insertM(m) #sort array as they're added
+    if b==False:
+        print("This month has already been added.")
+    else:
+        print("Added. The calendar view has been opened in a new window.")
+        printCalendar(m)
+
+def insertM(m): #sort method. looks at each item and compares the years, then the months
+    if len(months)==0:
+        months.append(m)
+        return True
+    for index in range(len(months)):
+        year1=int(m.getYear())
+        year2=int(months[index].getYear())
+        if year1<year2:
+            months.insert(index,m)
+            return True
+        elif year1==year2:
+            month1=monthOrder(m.getName())
+            month2=monthOrder(months[index].getName())
+            if month1<month2:
+                months.insert(index,m)
+                return True
+            elif month1==month2:
+                return False
+    months.append(m)
+    return True
+            
+def monthOrder(m): #assigns each month a comparable value
+    if m=='January':
+        return 1
+    elif m=='February':
+        return 2
+    elif m=='March':
+        return 3
+    elif m=='April':
+        return 4
+    elif m=='May':
+        return 5
+    elif m=='June':
+        return 6
+    elif m=='July':
+        return 7
+    elif m=='August':
+        return 8
+    elif m=='September':
+        return 9
+    elif m=='October':
+        return 10
+    elif m=='November':
+        return 11
+    else:
+        return 12
+            
+
+def findMonth(): #searches the array for a month entered by the user. if found, displays its calendar.
+    flag=False
+    n=input("Enter the name of the month. ")
+    y=input("Enter the year. ")
+    for index in months:
+        if n==index.getName() and y==index.getYear():
+            print("The calendar view for "+index.getName()+" "+index.getYear()+" has been opened in a new window.")
+            printCalendar(index)
+            flag=True
+    if flag==False:
+        print("This month has not been generated.")
+        
+
+from tkinter import *
+from functools import partial
+def printCalendar(month): #creates a python GUI that displays the given month's calendar, as well as its scheduled matches and tournaments
+    start=month.getStart()
+    days=month.getDays()
+    gui=Tk()
+    gui.title(month.getName() +" "+ month.getYear())
+    gui.geometry('1100x900')
+    rows=[[],[],[],[],[],[],[]]
+    col=rows[0]
+    for x in range(7):
+        frame=Frame(gui,width=150,height=50,bd=3,relief=RAISED)
+        col.append(frame)
+        frame.grid(row=0,column=x,sticky='nswe')
+        frame.rowconfigure(0,weight=1)
+        frame.columnconfigure(0,weight=1)
+        frame.grid_propagate(0)
+    Label(col[0],text='Sun',font=("Arial Bold",20)).grid(sticky='wse')
+    Label(col[1],text='Mon',font=("Arial Bold",20)).grid(sticky='wse')
+    Label(col[2],text='Tues',font=("Arial Bold",20)).grid(sticky='wse')
+    Label(col[3],text='Wed',font=("Arial Bold",20)).grid(sticky='wse')
+    Label(col[4],text='Thurs',font=("Arial Bold",20)).grid(sticky='wse')
+    Label(col[5],text='Fri',font=("Arial Bold",20)).grid(sticky='wse')
+    Label(col[6],text='Sat',font=("Arial Bold",20)).grid(sticky='wse')
+    counter=1
+    flag=False
+    for r in range(6):
+        col=rows[r+1]
+        for c in range(7):
+            frame=Frame(gui,width=30,height=110,bd=3,relief=GROOVE)
+            col.append(frame)
+            frame.grid(row=r+1,column=c,sticky='nswe')
+            frame.rowconfigure(0,weight=1)
+            frame.columnconfigure(0,weight=1)
+            frame.grid_propagate(0)
+            if counter==start+1:
+                flag=True
+            if flag==True and counter-start<=days:
+                Label(frame,text=counter-start,font=("Arial",15)).grid(sticky='wne')            
+            counter+=1
+
+    
+    def addMatch(m): #called after the Add Match button is pressed
+        gui2=Tk()
+        gui2.geometry('300x300')
+        gui2.title("Add Match")
+        def createMatch(): 
+            day=int(e1.get())
+            time=e2.get()
+            t1=e3.get()
+            t2=e4.get()
+            #check if each of those are valid options
+            if day<1 or day>m.getDays():
+                gui3=Tk()
+                gui3.title("Error")
+                Label(gui3,text="Please enter a valid date.",font=("Arial",20)).pack()
+                Button(gui3,text="OK",command=gui3.destroy).pack()
+                return
+            #for loop that goes through array of teams. check entered team String name with the name of teams in the array
+            """for enteredTeam in [t1,t2]:
+                for team in teams:
+                    if team.getName() == enteredTeam:
+                        break
+                gui3=Tk()
+                gui3.title("Error")
+                Label(gui3,text=et+" is not a valid team name.",font=("Arial",20)).pack()
+                Button(gui3,text="OK",command=gui3.destroy).pack()
+                return
+            """
+            #i'm gonna assume he doesn't enter an invalid time so im not gonna check for it
+            #if valid teams and a valid date were entered, this will run:
+            mort=MatchOrTournament(day,time,[t1,t2],'Match')
+            m.appendMatch(mort) #adds match to the Month's matches list
+            counter2=0
+            flag2=False
+            for row in rows:#searches calendar for correct day
+                for cols in row:
+                    if counter2==0:
+                        counter2=1
+                        break
+                    if counter2==int(day)+1:
+                        flag2=True
+                    if flag2==True and counter2-m.getStart()<=m.getDays():
+                        button=Button(cols,text=time,fg="blue")#,command=partial(viewMatchOrTournament(mort,month.getName(),month.getYear()))
+                        button.grid(sticky='wse') #adds the button to the calendar
+                        gui2.destroy()
+                        return
+                    counter2+=1
+        Label(gui2,text="Add Match",font=("Arial Bold",20)).pack()
+        Label(gui2,text='Date: ',font=("Arial",10)).pack()
+        e1=Entry(gui2)
+        e1.pack()
+        Label(gui2,text='Time: ',font=("Arial",10)).pack()
+        e2=Entry(gui2)
+        e2.pack()
+        Label(gui2,text='Name of Team 1: ',font=("Arial",10)).pack()
+        e3=Entry(gui2)
+        e3.pack()
+        Label(gui2,text='Name of Team 2: ',font=("Arial",10)).pack()
+        e4=Entry(gui2)
+        e4.pack()
+        Button(gui2,text="Add match",command=createMatch).pack()
+        Button(gui2,text="Cancel",command=gui2.destroy).pack()
+    
+    def addTournament(m): #called after the Add Tournament button is pressed
+        gui2=Tk()
+        gui2.geometry('300x410')
+        gui2.title('Add Tournament')
+        def createTournament(): 
+            day=int(e1.get())
+            time=e2.get()
+            t1=e3.get()
+            t2=e4.get()
+            t3=e5.get()
+            t4=e6.get()
+            #check if each of those are valid options
+            if day<1 or day>m.getDays():
+                gui3=Tk()
+                gui3.title("Error")
+                Label(gui3,text="Please enter a valid date.",font=("Arial",20)).pack()
+                Button(gui3,text="OK",command=gui3.destroy).pack()
+                return
+            #for loop that goes through array of teams. check entered team String name with the name of teams in the array
+            """for enteredTeam in [t1,t2,t3,t4]:
+                for team in teams:
+                    if team.getName() == enteredTeam:
+                        break
+                gui3=Tk()
+                gui3.title("Error")
+                Label(gui3,text=et+" is not a valid team name.",font=("Arial",20)).pack()
+                Button(gui3,text="OK",command=gui3.destroy).pack()
+                return
+            """
+            #i'm gonna assume he doesn't enter an invalid time so im not gonna check for it
+            #if valid teams and a valid date were entered, this will run:
+            mort=MatchOrTournament(day,time,[t1,t2,t3,t4],'Tournament')
+            m.appendTournament(mort)#adds tournament to the Month's tournament list
+            counter2=0
+            flag2=False
+            for row in rows: #searches calendar for correct day
+                for cols in row:
+                    if counter2==0:
+                        counter2=1
+                        break
+                    if counter2==int(day)+1:
+                        flag2=True
+                    if flag2==True and counter2-m.getStart()<=m.getDays():
+                        button=Button(cols,text=time,fg="red")#,command=partial(viewMatchOrTournament(mort,month.getName(),month.getYear()))
+                        button.grid(sticky='wse') #adds the button to the calendar
+                        gui2.destroy()
+                        return
+                    counter2+=1
+            gui2.destroy()
+            
+        Label(gui2,text="Add Tournament",font=("Arial Bold",20)).pack()
+        Label(gui2,text='Date: ',font=("Arial",10)).pack()
+        e1=Entry(gui2)
+        e1.pack()
+        Label(gui2,text='Time: ',font=("Arial",10)).pack()
+        e2=Entry(gui2)
+        e2.pack()
+        Label(gui2,text='Name of Team 1: ',font=("Arial",10)).pack()
+        e3=Entry(gui2)
+        e3.pack()
+        Label(gui2,text='Name of Team 2: ',font=("Arial",10)).pack()
+        e4=Entry(gui2)
+        e4.pack()
+        Label(gui2,text='Name of Team 3: ',font=("Arial",10)).pack()
+        e5=Entry(gui2)
+        e5.pack()
+        Label(gui2,text='Name of Team 4: ',font=("Arial",10)).pack()
+        e6=Entry(gui2)
+        e6.pack()
+        Button(gui2,text="Add tournament",command=createTournament).pack()
+        Button(gui2,text="Cancel",command=gui2.destroy).pack()
+
+
+    Button(gui,text="Add Match", command=partial(addMatch,month)).grid(sticky='wse')
+    Button(gui,text="Add Tournament",command=partial(addTournament,month)).grid(sticky='wse')
+    Button(gui,text="Close",command=gui.destroy).grid(sticky='wse')
+    
+    gui.rowconfigure(0,weight=0)
+    gui.columnconfigure(0,weight=0)
+    gui.mainloop()
+
+
+def viewMatchOrTournament(mort,name,year):
+    gui2=Tk()
+    Label(gui2,text=mort.getMort(),font=("Arial Bold",20)).pack()
+    Label(gui2,text=f"{name} {year}",font=("Arial Bold",15)).pack()
+    Label(gui2,text=f"{mort.getDay()} {mort.getTime()}",font=("Arial Bold",15)).pack()
+    Label(gui2).pack()
+    first=True
+    teamss=mort.getTeams()
+    for index in range(len(teamss)):
+        if first!=True:
+            Label(gui2,text="vs",font=("Arial",10)).pack()
+            Label(gui2)
+        Label(gui2,text=teamss[index],font=("Arial",10)).pack()
+        first=False      
+        
+
+class MatchOrTournament:
+    def __init__(self, day, time, teams,mort):
+        self.day=day
+        self.time=time
+        self.teams=teams
+        self.mort=mort #string
+    def getDay(self):
+        return self.day
+    def getTime(self):
+        return self.time
+    def getTeams(self):
+        return self.teams
+    def getMort(self):
+        return self.mort
+    
+"""class Tournament:
+    def __init__(self, day, time, teams):
+        self.day=day
+        self.time=time
+        self.teams=teams
+    def getDay(self):
+        return self.day
+    def getTime(self):
+        return self.time
+    def getTeams(self): #an array 
+        return self.teams
+"""
+
+    
+"""def main():
+    readFile()
+    while(True):
+        x=int(input("\nWhat would you like to do?\n1. Add new month\n2. View month\n3. View a list of all generated months. "))
+        if x==1:
+            addMonth()
+        elif x==2:
+            findMonth()
+        else:
+            print(months)
+            
+            
+main() """
