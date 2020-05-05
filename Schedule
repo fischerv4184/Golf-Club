@@ -422,17 +422,4 @@ class MatchOrTournament:
         return self.teams
 """
 
-    
-def main():
-    readFile()
-    while(True):
-        x=int(input("\nWhat would you like to do?\n1. Add new month\n2. View month\n3. View a list of all generated months. "))
-        if x==1:
-            addMonth()
-        elif x==2:
-            findMonth()
-        else:
-            print(months)
-            
-            
-main()
+
