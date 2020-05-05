@@ -1,23 +1,51 @@
 class Team:
-    def __init__(self,name, golfers, gender,grade):
-        self.golfers=golfers #should be a list-maybe dont make it a parameter, just assign it to empty?
+    def __init__(self,name, gender,grade):
+        self.players=[] #should be a list-maybe dont make it a parameter, just assign it to empty?
         self.gender=gender
         self.grade=grade
-        self.ranking=-1
+        self.ranking=0
         self.full=False
         self.name=name
         
     def findRanking(self):
         #add together all rankings of players on the team using getRanking
         #divide by number of golfers
+        count=0
+        for x in self.players:
+            self.ranking=self.ranking+x.getranking()
+            count=count+1
+            self.ranking=self.ranking/count      
         
     def getSize(self):
         #return number of golfers
+        return players.len()
         
-    def addGolfer(self):
+    def addGolfer(self, newGolfer):
         #check how many golfers on team(if full, do not add-maybe return false?? or create new team with same age and gender?)
         #add to golfers list
         #if list now=8, change full to True
+        if(self.full==True):
+            return False
+        #IS THIS  HOW I SSHOULD DO IT??
+        else:
+            self.players.append(newGolfer)
+            if(self.getSize()==8):
+                Self.full=True
+            return True
+        
         
     def getName(self):
         return self.name;
+    
+    def manualAdd(self):
+    #for when they can adjust teaams themselves so it doesnt matter how many players there are
+        self.players.append(newGolfer)
+        
+    def remove(self,golfer):
+    #should we also have an option to remove by number in case we don't know name
+        found=False
+        for x in self.players:
+            if (x.getName==golfer):
+                found=True
+        if(found==True):
+            self.players.remove(golfer)
