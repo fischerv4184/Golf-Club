@@ -32,6 +32,9 @@ class player:
     
     def getSchool(self):
         return self.school
+        
+    def getTeam(self):
+        return self.team
     
     
     #how do i want this to be ?? 
