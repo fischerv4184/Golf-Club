@@ -1,10 +1,13 @@
 from Player import player
+from Team import Team
 players=[]
+teams=[]
 
 def readFile():
     infile=open("score_sheet.csv","r")
     infile.readline()
     infile.readline()
+    pt=[]
     for line in infile:
         data=line.split(",")
         if data[0]!="":
@@ -12,5 +15,12 @@ def readFile():
             for score in range(6):
                 if data[score]!="":
                     scores.append(data[10+score])
-            players.append(player(data[3],data[4],data[5],data[6],data[2],scores))
-                                #first, last, gender, grade, school, scores
+            pl=player(data[3],data[4],data[5],data[6],data[2],scores,data[1])
+                            #first, last, gender, grade, school, scores, team
+            players.append(pl)      
+            pt.append(pl)
+            
+        elif pt!=[]:
+            p=pt[0]
+            teams.append(Team(pt,p.getTeam(),p.getGender(),p.getGrade()))
+            pt=[]
