@@ -1,3 +1,5 @@
+
+
 class player:
     
     #CONSTRUCTOR
@@ -10,6 +12,7 @@ class player:
         self.school = school
         self.team = team
         self.gamesPlayed = len(scores)
+        self.rank = 0
         
     #ACCESSOR METHODS
     
@@ -52,13 +55,28 @@ class player:
         b = format(b , '.2f')
         
         print("Players Average Score: {}".format(b))
+    
+    def getAverage(self):
+        b = 0
         
+        for x in self.scores:
+            a = eval(x)
+            b = b + a
         
+        b = b/len(self.scores)
+        b = format(b , '.2f')
+        return b
         
+    def changeRank(self, a):
+        self.rank = a
+        
+    def getRank(self):
+        return self.rank
         #other stuff
             
     def stats(self):
         print("Full Name: {}".format(self.getName()))
+        print("Ranking: {}".format(self.getRank()))
         print("Gender: {}".format(self.getGender()))
         print("School: {}".format(self.getSchool()))
         print("Grade: {}".format(self.getGrade()))
@@ -75,10 +93,6 @@ class player:
         self.school = s
         
  
-
-
-    
-
 
 
 
