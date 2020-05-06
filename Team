@@ -1,6 +1,6 @@
 class Team:
-    def __init__(self,name, gender,grade):
-        self.players=[] #should be a list-maybe dont make it a parameter, just assign it to empty?
+    def __init__(self,players,name, gender,grade): 
+        self.players=players #an array of players
         self.gender=gender
         self.grade=grade
         self.ranking=0
