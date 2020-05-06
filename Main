@@ -26,13 +26,15 @@ def findPlayer():
 def schedule():
     readFile()
     while(True):
-        x=int(input("\nWhat would you like to do?\n1. Add new month\n2. View month\n3. View a list of all generated months. "))
+        x=int(input("\nWhat would you like to do?\n1. Add new month\n2. View month\n3. View a list of all generated months\n4. Return to menu "))
         if x==1:
             addMonth()
         elif x==2:
             findMonth()
-        else:
+        elif x==3:
             print(months)
+        else:
+            return
 
 
     
@@ -53,21 +55,21 @@ def newScores():
 def main():
     
     readFile()
-        
-    #print menu, have it welcome and display options. take in pick, and direct accordingly
-    x = eval(input("What would you like to do: \n1. View Teams \n2. Find Player \n3. Ranking \n4. Calander\n5. Update Scores "))
-    #have shuffle teams, add player, and move players as an option within the view teams option
-    
-    if(x == 1):
-        viewTeams()
-    if(x == 2):
-        findPlayer()
-    if (x==3):
-        ranking()
-    if (x==4):
-        schedule()
-    if (x==5):
-        newScores()
+    x=0
+    while x!=6:
+        #print menu, have it welcome and display options. take in pick, and direct accordingly
+        x = eval(input("\nWhat would you like to do: \n1. View Teams \n2. Find Player \n3. Ranking \n4. Calander\n5. Update Scores\n6. Quit "))
+        #have shuffle teams, add player, and move players as an option within the view teams option
+        if(x == 1):
+            viewTeams()
+        if(x == 2):
+            findPlayer()
+        if (x==3):
+            ranking()
+        if (x==4):
+            schedule()
+        if (x==5):
+            newScores()
     
     
 
