@@ -1,87 +1,5 @@
-class player:
-    #CONSTRUCTOR
-    def __init__ (self, firstName, lastName, gender, grade, school, scores):
-        self.firstName = firstName
-        self.lastName = lastName
-        self.grade = grade
-        self.gender = gender
-        self.scores = scores
-        self.school = school
-        
-    def __repr__(self):
-        return f"\n{self.firstName} {self.lastName}, {self.gender}, {self.grade}, {self.school}, {self.scores}"
-        
-    #ACCESSOR METHODS
-    def getFirstName(self):
-        return self.firstName
-    def getLastName(self):
-        return self.lastName
-    def getName(self):
-        return "{0} {1}".format(self.firstName, self.lastName)
-    def getGrade(self):
-        return self.grade
-    def getGender(self):
-        return self.gender
-    def getSchool(self):
-        return self.school
-    
-    #how do i want this to be ?? 
-    def getScorse(self):
-        if self.scores.isEmpty():
-            x = eval(print("{} has no scores stored. Would you like to add scores to players data? \n1. Yes\n2. No".format(self.getName())))
-        else:
-            print("Here it will print the scores of the player somehow!")
-            
-    #options to change data
-    def changeGrade(self, number):
-        self.grade = number
-    def changeSchool(self, s):
-        self.school = s
-
-
-class Team:
-    def __init__(self,name, golfers, gender,grade):
-        self.golfers=golfers #should be a list-maybe dont make it a parameter, just assign it to empty?
-        self.gender=gender
-        self.grade=grade
-        self.ranking=-1
-        self.full=False
-        self.name=name
-        
-    #def findRanking(self):
-        #add together all rankings of players on the team using getRanking
-        #divide by number of golfers
-        
-    #def getSize(self):
-        #return number of golfers
-        
-    #def addGolfer(self):
-        #check how many golfers on team(if full, do not add-maybe return false?? or create new team with same age and gender?)
-        #add to golfers list
-        #if list now=8, change full to True
-        
-    def getName(self):
-        return self.name;
-
-
-
-
-players=[]
-
-def readFile():
-    infile=open("score_sheet.csv","r")
-    infile.readline()
-    infile.readline()
-    for line in infile:
-        data=line.split(",")
-        if data[0]!="":
-            scores=[]
-            for score in range(6):
-                if data[score]!="":
-                    scores.append(data[10+score])
-            players.append(player(data[3],data[4],data[5],data[6],data[2],scores))
-            #first,last,gender,grade, school,scores
-          
+from Team import *
+from readFile import teams
 
 months=[] #array of each generated month
 # Month class stores the matches and tournaments associated with each month that the user generates
@@ -232,13 +150,58 @@ def printCalendar(month): #creates a python GUI that displays the given month's 
             if flag==True and counter-start<=days:
                 Label(frame,text=counter-start,font=("Arial",15)).grid(sticky='wne')            
             counter+=1
+    
+    def viewMatchOrTournament(mort,name,year):
+        gui2=Tk()
+        Label(gui2,text=mort.getMort(),font=("Arial Bold",20)).pack()
+        Label(gui2,text=f"{name} {mort.getDay()}, {year}",font=("Arial Bold",15)).pack()
+        Label(gui2,text=f'{mort.getTime()}\n',font=("Arial ",15)).pack()
+        Label(gui2).pack()
+        first=True
+        teamss=mort.getTeams()
+        for index in range(len(teamss)):
+            if first!=True:
+                Label(gui2,text="vs",font=("Arial",10)).pack()
+                Label(gui2)
+            Label(gui2,text=teamss[index],font=("Arial",10)).pack()
+            first=False  
+    
+    
+    def searchForDay (mort,day,time,color):
+        counter2=0
+        flag2=False
+        for row in rows:#searches calendar for correct day
+            for cols in row:
+                if counter2==0:
+                    counter2=1
+                    break
+                if counter2==int(day)+1:
+                    flag2=True
+                if flag2==True and counter2-month.getStart()<=month.getDays():
+                    button=Button(cols,text=time,command=partial(viewMatchOrTournament,mort,month.getName(),month.getYear()),fg=color)
+                    button.grid(sticky='wse') #adds the button to the calendar
+                    return
+                counter2+=1
+    
+    if len(month.getMatches())!=0:
+        for y in month.getMatches():
+            searchForDay(y,y.getDay(),y.getTime(),'blue')
+    if len(month.getTournaments())!=0:
+        for y in month.getTournaments():
+            searchForDay(y,y.getDay(),y.getTime(),'red')
 
     
     def addMatch(m): #called after the Add Match button is pressed
         gui2=Tk()
         gui2.geometry('300x300')
         gui2.title("Add Match")
-        def createMatch(): 
+        def createMatch():
+            if len(e1.get())==0 or len(e2.get())==0 or len(e3.get())==0 or len(e4.get())==0:
+                gui3=Tk()
+                gui3.title("Error")
+                Label(gui3,text="One or more of the boxes is empty.",font=("Arial",20)).pack()
+                Button(gui3,text="OK",command=gui3.destroy).pack()
+                return
             day=int(e1.get())
             time=e2.get()
             t1=e3.get()
@@ -251,35 +214,25 @@ def printCalendar(month): #creates a python GUI that displays the given month's 
                 Button(gui3,text="OK",command=gui3.destroy).pack()
                 return
             #for loop that goes through array of teams. check entered team String name with the name of teams in the array
-            """for enteredTeam in [t1,t2]:
+            for enteredTeam in [t1,t2]:
+                j=False
                 for team in teams:
                     if team.getName() == enteredTeam:
+                        j=True
                         break
-                gui3=Tk()
-                gui3.title("Error")
-                Label(gui3,text=et+" is not a valid team name.",font=("Arial",20)).pack()
-                Button(gui3,text="OK",command=gui3.destroy).pack()
-                return
-            """
+                if j==False:
+                    gui3=Tk()
+                    gui3.title("Error")
+                    Label(gui3,text=enteredTeam+" is not a valid team name.",font=("Arial",20)).pack()
+                    Button(gui3,text="OK",command=gui3.destroy).pack()
+                    return
+            
             #i'm gonna assume he doesn't enter an invalid time so im not gonna check for it
             #if valid teams and a valid date were entered, this will run:
             mort=MatchOrTournament(day,time,[t1,t2],'Match')
             m.appendMatch(mort) #adds match to the Month's matches list
-            counter2=0
-            flag2=False
-            for row in rows:#searches calendar for correct day
-                for cols in row:
-                    if counter2==0:
-                        counter2=1
-                        break
-                    if counter2==int(day)+1:
-                        flag2=True
-                    if flag2==True and counter2-m.getStart()<=m.getDays():
-                        button=Button(cols,text=time,fg="blue")#,command=partial(viewMatchOrTournament(mort,month.getName(),month.getYear()))
-                        button.grid(sticky='wse') #adds the button to the calendar
-                        gui2.destroy()
-                        return
-                    counter2+=1
+            searchForDay(mort,day,time,'blue')
+            gui2.destroy()
         Label(gui2,text="Add Match",font=("Arial Bold",20)).pack()
         Label(gui2,text='Date: ',font=("Arial",10)).pack()
         e1=Entry(gui2)
@@ -300,7 +253,13 @@ def printCalendar(month): #creates a python GUI that displays the given month's 
         gui2=Tk()
         gui2.geometry('300x410')
         gui2.title('Add Tournament')
-        def createTournament(): 
+        def createTournament():
+            if len(e1.get())==0 or len(e2.get())==0 or len(e3.get())==0 or len(e4.get())==0 or len(e5.get())==0 or len(e6.get())==0:
+                gui3=Tk()
+                gui3.title("Error")
+                Label(gui3,text="One or more of the boxes is empty.",font=("Arial",20)).pack()
+                Button(gui3,text="OK",command=gui3.destroy).pack()
+                return
             day=int(e1.get())
             time=e2.get()
             t1=e3.get()
@@ -315,35 +274,24 @@ def printCalendar(month): #creates a python GUI that displays the given month's 
                 Button(gui3,text="OK",command=gui3.destroy).pack()
                 return
             #for loop that goes through array of teams. check entered team String name with the name of teams in the array
-            """for enteredTeam in [t1,t2,t3,t4]:
+            for enteredTeam in [t1,t2,t3,t4]:
+                j=False
                 for team in teams:
                     if team.getName() == enteredTeam:
+                        j=True
                         break
-                gui3=Tk()
-                gui3.title("Error")
-                Label(gui3,text=et+" is not a valid team name.",font=("Arial",20)).pack()
-                Button(gui3,text="OK",command=gui3.destroy).pack()
-                return
-            """
+                if j==False:
+                    gui3=Tk()
+                    gui3.title("Error")
+                    Label(gui3,text=enteredTeam+" is not a valid team name.",font=("Arial",20)).pack()
+                    Button(gui3,text="OK",command=gui3.destroy).pack()
+                    return
+                
             #i'm gonna assume he doesn't enter an invalid time so im not gonna check for it
             #if valid teams and a valid date were entered, this will run:
             mort=MatchOrTournament(day,time,[t1,t2,t3,t4],'Tournament')
             m.appendTournament(mort)#adds tournament to the Month's tournament list
-            counter2=0
-            flag2=False
-            for row in rows: #searches calendar for correct day
-                for cols in row:
-                    if counter2==0:
-                        counter2=1
-                        break
-                    if counter2==int(day)+1:
-                        flag2=True
-                    if flag2==True and counter2-m.getStart()<=m.getDays():
-                        button=Button(cols,text=time,fg="red")#,command=partial(viewMatchOrTournament(mort,month.getName(),month.getYear()))
-                        button.grid(sticky='wse') #adds the button to the calendar
-                        gui2.destroy()
-                        return
-                    counter2+=1
+            searchForDay(mort,day,time,'red')
             gui2.destroy()
             
         Label(gui2,text="Add Tournament",font=("Arial Bold",20)).pack()
@@ -375,51 +323,20 @@ def printCalendar(month): #creates a python GUI that displays the given month's 
     
     gui.rowconfigure(0,weight=0)
     gui.columnconfigure(0,weight=0)
-    gui.mainloop()
-
-
-def viewMatchOrTournament(mort,name,year):
-    gui2=Tk()
-    Label(gui2,text=mort.getMort(),font=("Arial Bold",20)).pack()
-    Label(gui2,text=f"{name} {year}",font=("Arial Bold",15)).pack()
-    Label(gui2,text=f"{mort.getDay()} {mort.getTime()}",font=("Arial Bold",15)).pack()
-    Label(gui2).pack()
-    first=True
-    teamss=mort.getTeams()
-    for index in range(len(teamss)):
-        if first!=True:
-            Label(gui2,text="vs",font=("Arial",10)).pack()
-            Label(gui2)
-        Label(gui2,text=teamss[index],font=("Arial",10)).pack()
-        first=False      
+    gui.mainloop()   
         
 
 class MatchOrTournament:
-    def __init__(self, day, time, teams,mort):
+    def __init__(self, day, time, teamss,mort):
         self.day=day
         self.time=time
-        self.teams=teams
+        self.teamss=teamss
         self.mort=mort #string
     def getDay(self):
         return self.day
     def getTime(self):
         return self.time
     def getTeams(self):
-        return self.teams
+        return self.teamss
     def getMort(self):
         return self.mort
-    
-"""class Tournament:
-    def __init__(self, day, time, teams):
-        self.day=day
-        self.time=time
-        self.teams=teams
-    def getDay(self):
-        return self.day
-    def getTime(self):
-        return self.time
-    def getTeams(self): #an array 
-        return self.teams
-"""
-
-
