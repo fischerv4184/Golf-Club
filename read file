@@ -10,7 +10,7 @@ def readFile():
     pt=[]
     for line in infile:
         data=line.split(",")
-        if data[0]!="":
+        if data[2]!="":
             scores=[]
             for score in range(6):
                 if data[score]!="":
