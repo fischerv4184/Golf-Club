@@ -36,6 +36,12 @@ class Team:
         
     def getName(self):
         return self.name;
+    def getPlayers(self):
+        return self.players
+    def getGender(self):
+        return self.gender
+    def getGrade(self):
+        return self.grade
     
     def manualAdd(self):
     #for when they can adjust teaams themselves so it doesnt matter how many players there are
