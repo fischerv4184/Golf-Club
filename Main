@@ -56,9 +56,9 @@ def main():
     
     readFile()
     x=0
-    while x!=6:
+    while True:
         #print menu, have it welcome and display options. take in pick, and direct accordingly
-        x = eval(input("\nWhat would you like to do: \n1. View Teams \n2. Find Player \n3. Ranking \n4. Calander\n5. Update Scores\n6. Quit "))
+        x = eval(input("\nWhat would you like to do: \n1. View Teams \n2. Find Player \n3. Ranking \n4. Calander\n5. Update Scores "))
         #have shuffle teams, add player, and move players as an option within the view teams option
         if(x == 1):
             viewTeams()
