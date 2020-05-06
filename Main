@@ -1,10 +1,24 @@
 from player import player
-from Schedule import *
-from read import *
+from schedule import *
+from readFile import *
 
 
-'''def viewTeams():
-    #print teams and their players '''
+def listTeams(): #list all team names
+    for x in teams:
+        print(x.getName())
+ 
+ 
+def viewTeam():
+    x=input("What team would you like to view? ")
+    print()
+    for y in teams:
+        if y.getName()==x:
+            print(y.getName(),y.getGrade()+"th Grade "+y.getGender()+"s")
+            for p in y.getPlayers():
+                print(p.getName())
+            return
+    print("Team not found.")
+
 
 def findPlayer():
     b = False
@@ -55,17 +69,6 @@ def printRank():
         print (a.getRank(), a.getName())
         
 
-'''
-
-def ranking():
-    #give option of player ranking or team ranking
-    #go through list and rank
-    
-def newScores():
-
-    
-'''
-
             
 def main():
     
@@ -76,23 +79,23 @@ def main():
     x = 0
     while True:
         #print menu, have it welcome and display options. take in pick, and direct accordingly
-        x = eval(input("\nWhat would you like to do: \n1. View Teams \n2. Find Player \n3. Ranking \n4. Calander\n5. Update Scores "))
+        x = eval(input("\nWhat would you like to do: \n1. List Teams\n2. View Team \n3. Find Player \n4. Ranking \n5. Calander\n6. Update Scores "))
         #have shuffle teams, add player, and move players as an option within the view teams option
     
-        if(x == 1):
-            viewTeams()
-        if(x == 2):
-            findPlayer()
+        if (x==1):
+            listTeams()
+        if (x==2):
+            viewTeam()
         if (x==3):
-            printRank()
+            findPlayer()
         if (x==4):
-            schedule()
+            printRank()
         if (x==5):
+            schedule()
+        if (x==6):
             newScores()
     
     
 
 
 main()
-            
-
