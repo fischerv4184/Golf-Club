@@ -7,15 +7,11 @@ class Team:
         self.full=False
         self.name=name
         
-    def findRanking(self):
-        #add together all rankings of players on the team using getRanking
-        #divide by number of golfers
-        count=0
-        for x in self.players:
-            self.ranking=self.ranking+x.getranking()
-            count=count+1
-            self.ranking=self.ranking/count      
         
+    def changeRanking(self, c):
+        self.ranking = c
+            
+          
     def getSize(self):
         #return number of golfers
         return players.len()
@@ -42,6 +38,9 @@ class Team:
         return self.gender
     def getGrade(self):
         return self.grade
+    
+    def getRanking(self):
+        return self.ranking
     
     def manualAdd(self):
     #for when they can adjust teaams themselves so it doesnt matter how many players there are
