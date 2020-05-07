@@ -38,7 +38,7 @@ def findPlayer():
 def schedule():
     readFile()
     while(True):
-        x=int(input("\nWhat would you like to do?\n1. Add new month\n2. View month\n3. View a list of all generated months\n4. Return to menu"))
+        x=int(input("\nWhat would you like to do?\n1. Add new month\n2. View month\n3. View a list of all generated months\n4. Return to menu\n"))
         if x==1:
             addMonth()
         elif x==2:
@@ -131,7 +131,7 @@ def movePlayers():
         
 def addPlayer():
     firstName = input("Enter the player's first name\n")
-    lastName = input("Enter the player's last night\n")
+    lastName = input("Enter the player's last name\n")
     grade = input("Enter the player's grade (just as a number)\n")
     gender = input("Enter the player's gender (Boy/Girl)\n")
     school = input("Enter the player's school\n")
