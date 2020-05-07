@@ -1,13 +1,12 @@
 from player import player
-from Schedule import *
+from schedule import *
 from read import *
 
 
-def listTeams(): #list all team names
+def listTeams():#list all team names
     for x in teams:
         print(x.getName())
- 
- 
+
 def viewTeam():
     x=input("What team would you like to view? ")
     print()
@@ -19,22 +18,21 @@ def viewTeam():
             return
     print("Team not found.")
 
-
 def findPlayer():
     b = False
-    name = input("What is the name of the player you would like to find (first and last name)?: ")
+    while b==False:
+        name = input("What is the name of the player you would like to find (first and last name)?: ")
     
-    for a in players:
-        if (a.getName() == name):
-            print("{} found in database!".format(name))
-            #display stats
-            print("PLAYER STATS")
-            a.stats()
-            b = True
-            break
-    
-    if (b == False):
-        print("Player not found in database.")
+        for a in players:
+            if (a.getName() == name):
+                print("{} found in database!".format(name))
+                #display stats
+                print("\nPLAYER STATS")
+                a.stats()
+                b = True
+                return a
+            
+        print("Player not found in database. Please try again")
                 
     
 def schedule():
@@ -54,12 +52,11 @@ def schedule():
 def Pranking():
     players.sort(key=lambda x: x.getAverage())
     c = 0
+    
     for a in players:
         c += 1
         a.changeRank(c)
     
-    
-        
 def Tranking():
     count = 0
     rank = 0
@@ -67,66 +64,134 @@ def Tranking():
         for x in a.getPlayers():
             count = count + 1
             rank = rank + x.getRank()
-    
+
         rank = rank / count
         a.changeRanking(rank)
-    
+
     teams.sort(key = lambda x : x.getRanking())
-    
+
     count = 0
     for a in teams:
         count = count + 1
         a.changeRanking(count)
     
     
-            
-            
-            
-
 def TprintRank():
-    print("TEAM RANKINGS")
+    print("\nTEAM RANKINGS")
     for a in teams:
         print (a.getRanking(), a.getName())
-    
-    
-    
+
+
 def PprintRank():
-    print("PLAYER RANKINGS")
+    print("\nPLAYER RANKINGS")
     for a in players:
-        print (a.getRank(), a.getName())
+        print(a.getRank(),a.getName())
+
+    
+def newScores():
+    go=True
+    tplayers=[]
+    while go==True:
+        t=input("What team would you like to input scores for?\n")
+        for a in teams:
+            if a.getName()==t:
+                tplayers=a.getPlayers()
+                for b in tplayers:
+                    score=input("enter the match score for " + b.getName() + ". If this golfer did not play this match, enter 'x'\n")
+                    if(score!="x"): 
+                        b.addScore(score)
+                g=eval(input("would you like to enter scores for another team? \n1.yes \n2.no\n"))
+                if(g==2):
+                    go=False
+    Pranking()
+    Tranking()
+                    
+
+def movePlayers():
+    #finds golfer and current Team
+    golfer=findPlayer()
+    oldName=golfer.getTeam()
+    for x in teams:
+        if x.getName()==oldName:
+            oldTeam=x
+    
+    
+    #puts golfer on new team
+    while True:
+        newTeam=input("The golfer is currently on " + golfer.getTeam() + ". What team would you like to move him to?")
+        for x in teams:
+            if x.getName()==newTeam:
+                oldTeam.remove(golfer)
+                x.manualAdd(golfer)
+                print("Golfer has been moved")
+                return True
+        print("that team does not exist. Please try again")
         
+    tRanking()
+        
+def addPlayer():
+    firstName = input("Enter the player's first name\n")
+    lastName = input("Enter the player's last night\n")
+    grade = input("Enter the player's grade (just as a number)\n")
+    gender = input("Enter the player's gender (Boy/Girl)\n")
+    school = input("Enter the player's school\n")
+    scores = []
+    filled=False
+    
+    for x in teams:
+        if (x.getGrade()==grade):
+            if (x.getGender()==gender):
+                if(x.hasRoom()):
+                    golfer= player(firstName, lastName, gender, grade, school, scores, x.getName())
+                    players.append(golfer)
+                    x.addGolfer(golfer)
+                    print("Golfer added to " + x.getName())
+                    filled=True
+                    break
+    if(filled==False):
+        teamName= input("There are no available teams, so the player will be added to a new team. Please enter the name of the new team\n")
+        newTeam=Team([],teamName, gender,grade)
+        teams.append(newTeam)
+        golfer= player(firstName, lastName, gender, grade, school, scores, teamName)
+        players.append(golfer)
+        newTeam.addGolfer(golfer)
+    
 
             
 def main():
     
     readFile()
-    
     Pranking()
     Tranking()
     
     x = 0
     while True:
         #print menu, have it welcome and display options. take in pick, and direct accordingly
-        x = eval(input("\nWhat would you like to do: \n1. List Teams\n2. View Team \n3. Find Player \n4. Ranking \n5. Calander\n6. Update Scores "))
-        #have shuffle teams, add player, and move players as an option within the view teams option
+        x = eval(input("\nWhat would you like to do: \n1. List Teams \n2. View Team \n3. Find Player \n4. See Ranking\n5. Calendar\n6. Update Scores\n7. Add a player\n8. Move a player\n9. Quit\n"))
+
     
-        if (x==1):
+        if(x == 1):
             listTeams()
-        if (x==2):
+        if(x == 2):
             viewTeam()
         if (x==3):
             findPlayer()
-        if (x==4):
-            a = eval(input("Would you like to see (1) Player Ranking or (2) Team Ranking? "))
-            if a == 1:
+        if(x==4):
+            a=eval(input("would you like to see (1)Player Ranking or (2)Team Ranking?"))
+            if(a==1):
                 PprintRank()
-            if a == 2:
+            if(a==2):
                 TprintRank()
-                
         if (x==5):
             schedule()
         if (x==6):
             newScores()
+        if(x==7):
+            addPlayer()
+        if (x==8):
+            movePlayers()
+        if (x==9):
+            break
     
     
 
