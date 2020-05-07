@@ -1,6 +1,6 @@
 from player import player
-from schedule import *
-from readFile import *
+from Schedule import *
+from read import *
 
 
 def listTeams(): #list all team names
@@ -51,19 +51,46 @@ def schedule():
             return
 
 
-def ranking():
+def Pranking():
     players.sort(key=lambda x: x.getAverage())
     c = 0
-    
-    
-    
     for a in players:
         c += 1
         a.changeRank(c)
     
     
+        
+def Tranking():
+    count = 0
+    rank = 0
+    for a in teams:
+        for x in a.getPlayers():
+            count = count + 1
+            rank = rank + x.getRank()
     
-def printRank():
+        rank = rank / count
+        a.changeRanking(rank)
+    
+    teams.sort(key = lambda x : x.getRanking())
+    
+    count = 0
+    for a in teams:
+        count = count + 1
+        a.changeRanking(count)
+    
+    
+            
+            
+            
+
+def TprintRank():
+    print("TEAM RANKINGS")
+    for a in teams:
+        print (a.getRanking(), a.getName())
+    
+    
+    
+def PprintRank():
     print("PLAYER RANKINGS")
     for a in players:
         print (a.getRank(), a.getName())
@@ -74,7 +101,8 @@ def main():
     
     readFile()
     
-    ranking()
+    Pranking()
+    Tranking()
     
     x = 0
     while True:
@@ -89,7 +117,12 @@ def main():
         if (x==3):
             findPlayer()
         if (x==4):
-            printRank()
+            a = eval(input("Would you like to see (1) Player Ranking or (2) Team Ranking? "))
+            if a == 1:
+                PprintRank()
+            if a == 2:
+                TprintRank()
+                
         if (x==5):
             schedule()
         if (x==6):
