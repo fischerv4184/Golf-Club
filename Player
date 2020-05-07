@@ -1,5 +1,3 @@
-
-
 class player:
     
     #CONSTRUCTOR
@@ -76,6 +74,7 @@ class player:
             
     def stats(self):
         print("Full Name: {}".format(self.getName()))
+        print("Team: {}".format(self.getTeam()))
         print("Ranking: {}".format(self.getRank()))
         print("Gender: {}".format(self.getGender()))
         print("School: {}".format(self.getSchool()))
@@ -92,18 +91,10 @@ class player:
     def changeSchool(self, s):
         self.school = s
         
- 
-
-
-
-        
-        
+    def addScore(self, matchScore):
+        self.scores.append(matchScore)
+        self.gamesPlayed = len(self.scores)
     
-    
-    
-
- 
-
-
-    
+    def changeTeam(self, teamName):
+        self.team=teamName
 
