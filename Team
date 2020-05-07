@@ -7,44 +7,34 @@ class Team:
         self.full=False
         self.name=name
         
-        
     def changeRanking(self, c):
         self.ranking = c
-            
-          
+        
+    def getRanking(self):
+        return self.ranking
+        
     def getSize(self):
         #return number of golfers
-        return players.len()
+        return len(self.players)
+
         
     def addGolfer(self, newGolfer):
-        #check how many golfers on team(if full, do not add-maybe return false?? or create new team with same age and gender?)
         #add to golfers list
         #if list now=8, change full to True
-        if(self.full==True):
-            return False
-        #IS THIS  HOW I SSHOULD DO IT??
-        else:
-            self.players.append(newGolfer)
-            if(self.getSize()==8):
-                Self.full=True
-            return True
-        
+        self.players.append(newGolfer)
+        newGolfer.changeTeam(self.name)
+        if(self.getSize()==8):
+            self.full=True
+
         
     def getName(self):
         return self.name;
-    def getPlayers(self):
-        return self.players
-    def getGender(self):
-        return self.gender
-    def getGrade(self):
-        return self.grade
     
-    def getRanking(self):
-        return self.ranking
-    
-    def manualAdd(self):
+    def manualAdd(self, newGolfer):
     #for when they can adjust teaams themselves so it doesnt matter how many players there are
         self.players.append(newGolfer)
+        newGolfer.changeTeam(self.name)
+
         
     def remove(self,golfer):
     #should we also have an option to remove by number in case we don't know name
@@ -54,3 +44,19 @@ class Team:
                 found=True
         if(found==True):
             self.players.remove(golfer)
+            golfer.changeTeam(void)
+
+    def getPlayers(self):
+        return self.players
+    
+    def getGender(self):
+        return self.gender
+    
+    def getGrade(self):
+        return self.grade
+    
+    def hasRoom(self):
+        if(self.full):
+            return False
+        else:
+            return True
