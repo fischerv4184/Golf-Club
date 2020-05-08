@@ -52,10 +52,10 @@ class player:
         if(len(self.scores) != 0):
             b = b/len(self.scores)
             b = format(b , '.2f')
+            print("Players Average Score: {}".format(b))
         else:
-            b = 0
-        
-        print("Players Average Score: {}".format(b))
+            print("Average unable to be calculated- no scores in system")
+       
     
     def getAverage(self):
         b = 0
@@ -67,9 +67,9 @@ class player:
         if(len(self.scores) != 0):
             b = b/len(self.scores)
             b = format(b , '.2f')
-            return b
+            return eval(b)
         else:
-            return 0
+            return 300
         
     def changeRank(self, a):
         self.rank = a
