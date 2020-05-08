@@ -61,9 +61,12 @@ class player:
             a = eval(x)
             b = b + a
         
-        b = b/len(self.scores)
-        b = format(b , '.2f')
-        return b
+        if(len(self.scores != 0)):
+            b = b/len(self.scores)
+            b = format(b , '.2f')
+            return b
+        else:
+            return 0
         
     def changeRank(self, a):
         self.rank = a
