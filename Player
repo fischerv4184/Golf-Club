@@ -61,7 +61,7 @@ class player:
             a = eval(x)
             b = b + a
         
-        if(len(self.scores != 0)):
+        if(len(self.scores) != 0):
             b = b/len(self.scores)
             b = format(b , '.2f')
             return b
