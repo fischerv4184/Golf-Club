@@ -40,7 +40,7 @@ class player:
     
     #how do i want this to be ?? 
     def getScores(self):
-        b = 0
+       b = 0
         print("Players Scores: ")
         for x in self.scores:
             print("   {}".format(x))
@@ -49,8 +49,11 @@ class player:
             a = eval(x)
             b = b + a
         
-        b = b/len(self.scores)
-        b = format(b , '.2f')
+        if(len(self.scores) != 0):
+            b = b/len(self.scores)
+            b = format(b , '.2f')
+        else:
+            b = 0
         
         print("Players Average Score: {}".format(b))
     
